@@ -9,7 +9,7 @@ class Event extends Model
     protected $table="event";
     
 
-    public function Users() {
-        $this->belongsToMany('App\User');
+    public function users() {
+        return $this->belongsToMany('App\User');
     }
 }

@@ -28,6 +28,6 @@ Route::group(['middleware'=>['auth:api']], function(){
     Route::get('/event/delete/{id}','EventController@destroy');
     Route::get('/event','EventController@index');
     Route::post('/event/join','EventController@join');
-    Route::post('/event/user/{id}','UserController@getUser');
-    Route::post('/event/member/{id}','EventController@getEvent');
+    Route::get('/event/user/{id}','UserController@getUser');
+    Route::get('/event/member/{id}','EventController@getEvent');
 });

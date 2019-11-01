@@ -17,10 +17,9 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->id,
-            'event_id' => $this->Events->event_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'event' => $this->Events()->get()
+            'event' => $this->events()->get()
         ];
     }
 }

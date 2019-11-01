@@ -66,7 +66,7 @@ class EventController extends Controller
     public function update(Request $request , $id)
     {
         if($request->api_token == $this->user_data['api_token']){
-            $data = Event::find(id);
+            $data = Event::find($id);
 
             if(!empty($request->file('image'))){
                 if(!empty($data->image_url)){
@@ -74,7 +74,7 @@ class EventController extends Controller
                 }
 
                 $file = $request->file('image');
-                $file->move($this->upload,$file->getClientOriginalName());
+                $file->move($this->destination,$file->getClientOriginalName());
 
             }
 
@@ -84,7 +84,7 @@ class EventController extends Controller
             $data->description = $request->description;  
             
             if(!empty($request->file('image'))){
-                $data->image_url = $destination.'/'.$file->getClientOriginalName();
+                $data->image_url = $this->destination.'/'.$file->getClientOriginalName();
             }
 
             $data->save();
@@ -141,8 +141,8 @@ class EventController extends Controller
     {
         if($request->api_token == $this->user_data['api_token']){
            
-            $data = Event::where('id', $request->event_id);
-            $data->Users->attach($request->user_id);
+            $data = Event::find($request->event_id);
+            $data->users()->attach($request->user_id);
 
             return response()->json([
                 'success' => true,
