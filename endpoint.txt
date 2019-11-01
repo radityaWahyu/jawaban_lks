@@ -1,0 +1,10 @@
+Endpoint yang harus dikerjakan
+http://localhost:8000/register (POST)
+http://localhost:8000/login (POST)
+http://localhost:8000/event (POST)
+http://localhost:8000/event/update/1 (POST)
+http://localhost:8000/event/delete/1?api_token=xxx (GET)
+http://localhost:8000/event (GET)
+http://localhost:8000/event/join (POST)
+http://localhost:8000/event/user/user_id?api_token=xxxx (GET)
+http://localhost:8000/event/member/id_event?api_token=xxxx (GET)
