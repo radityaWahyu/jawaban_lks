@@ -21,12 +21,13 @@ class EventController extends Controller
 
     public function create(Request $request)
     {
+        
         if($request->api_token == $this->user_data['api_token']){
             try {
                 
                 if(!empty($request->file('image'))){
                     $file = $request->file('image');
-                    $file->move($this->upload,$file->getClientOriginalName());
+                    $file->move($this->destination,$file->getClientOriginalName());
                 }
                 
                 $data = new Event();
@@ -36,7 +37,7 @@ class EventController extends Controller
                 $data->description = $request->description;  
                 
                 if(!empty($request->file('image'))){
-                    $data->image_url = $destination.'/'.$file->getClientOriginalName();
+                    $data->image_url = $this->destination.'/'.$file->getClientOriginalName();
                 }
 
                 $data->save();
@@ -51,7 +52,7 @@ class EventController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'Data gagal disimpan',
-                    'data' => $e
+                    'data' => $e->getMessage()
                 ]);
             }
         }else{

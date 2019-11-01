@@ -10,7 +10,7 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $table='user';
+    //protected $table='user';
 
     /**
      * The attributes that are mass assignable.
@@ -27,7 +27,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token'
     ];
 
     /**
@@ -46,7 +46,8 @@ class User extends Authenticatable
 
    public function generateToken()
    {
-       $this->api_token = str_random(15);
+       $this->api_token = str_random(50);
        $this->save();
+       return $this->api_token;
    }
 }

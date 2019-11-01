@@ -5,17 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
-use App\http\resources\UserResource;
+use App\Http\Resources\UserResource;
+use App\Http\Requests\RegisterRequest;
+use Hash;
 
 class UserController extends Controller
 {
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
         try {
             $data = new User();
             $data->name = $request->name;
             $data->email = $request->email;
             $data->password = Hash::make($request->password);
+            $data->api_token = str_random(50);
             $data->role_id = $request->role_id;
             $data->save();
     
@@ -36,21 +39,23 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        if(Auth::attempt($request->only('email', 'password'))){
-            $user = Auth::user();
-            $token = $user->generateToken();
+        $datauser = User::where('email', $request->email)->first();
+        if($datauser){
+            if(Hash::check($request->password, $datauser->password)){
+                $token = $datauser->generateToken();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Login berhasil',
-                'data' => $user
-            ]);
-        }else{
-            return response()->json([
-                'success' => false,
-                'message' => 'Email dan password tidak ditemukan',
-                'data' => null
-            ]);
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Login berhasil',
+                    'data' => $datauser
+                ]);
+            }else{
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Email dan password tidak ditemukan',
+                    'data' => null
+                ]);
+            }
         }
     }
 
